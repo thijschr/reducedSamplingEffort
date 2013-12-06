@@ -134,26 +134,15 @@ dca2_1gr <- as.data.frame(extractAxes(lst = dcas1gr[[1]], ax = 2,
 
 
 
-# Checking sign of axes ---------------------------------------------------
+# Checking and changing (if necessary) the sign of axes -------------------
 
 ## All axes need to point in the same direction when running procrustes analysis
 
-cor(cbind(axesSta[, 1], dca1_3gr))
-test <- cor(cbind(axesSta[, 1], dca1_3gr))
-str(test)
-test[1, ]
-if(sign(test[1, 1] == -1)), dca1_3gr[, 1] <- -dca1_3gr[, 1]
+## Changing sign (if necessary) by calling signCheck()
+dca1_3gr <- signCheck(source = axesSta[, 1], target = dca1_3gr)
+dca2_3gr <- signCheck(source = axesSta[, 2], target = dca2_3gr)
+dca1_2gr <- signCheck(source = axesSta[, 1], target = dca1_2gr)
+dca2_2gr <- signCheck(source = axesSta[, 2], target = dca2_2gr)
+dca1_1gr <- signCheck(source = axesSta[, 1], target = dca1_1gr)
+dca2_1gr <- signCheck(source = axesSta[, 2], target = dca2_1gr)
 
-signCheck <- function(source, target) {
-    ## target: vector of axes scores with know direction
-    ## source: matrix with columns that contain axes scores for which the sign are checked
-    for(i in 1:ncol(target)) {
-        test.i <- cor(cbind(source, target[, i]))
-        print(sign(test.i))
-        # if(sign(test.i) == -1) { target[, i] <- - target[, i] }
-        ifelse(sign(test.i == 1), next, target[, i] <- -target[, i])
-    }
-    target
-}
-
-pr <- signCheck(source = axesSta[, 2], target = dca2_3gr)
