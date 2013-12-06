@@ -10,3 +10,54 @@ randomRows <- function(data, n)
     return(data[sample(nrow(data), n), ])
 }
 
+
+
+# Function for running DCA on reduced datasets -----------------------------
+
+dcaRedData <- function(data, iter, n) {
+    ## data:        data frame containing samples nested within sites/stations
+    # First col: site/station (named Sta), second col: sample nr, then species
+    ## iter:        number of random sampling iterations
+    ## n            number of samples to randomly select per site/station
+    
+    require(plyr)
+    require(reshape2)
+    require(vegan)
+    
+    dcaList <- list()
+    richnessTot <- NULL
+    richnessSite <- NULL
+    
+    for(i in 1:iter)
+    {
+        # Random selection of a given number n of samples within each site
+        sel.i <- ddply(data, .(Sta), randomRows, n)
+        sel.i <- sel.i[, -2] # Removing sample id
+        
+        # Unifying data into abundance of species per site
+        siteMelt.i <- melt(sel.i, "Sta")
+        siteCast.i <- dcast(siteMelt.i, formula = Sta ~ variable, sum)
+        site.i <- siteCast.i[, -1]
+        
+        # Weighting of abundance: R=32
+        siteR32.i <- as.data.frame(site.i^(log(32)/log(max(site.i))))
+        
+        # Total and site richness
+        richTot.i <- sum(colSums(siteR32.i) > 0)
+        richSite.i <- as.vector(rowSums(siteR32.i > 0))
+        
+        dcaSites.i <- decorana(siteR32.i)
+        
+        axesSites.i <- data.frame(dca1 = scores(dcaSites.i, choices = 1, disp = "sites"),
+                                  dca2 = scores(dcaSites.i, choices = 2, disp = "sites"))
+        
+        dcaList[[length(dcaList) + 1]] <- axesSites.i
+        richnessTot[length(richnessTot) + 1] <- richTot.i
+        richnessSite[length(richnessSite) + 1] <- richSite.i
+        
+    }
+    out <- list(dcas = dcaList,
+                richnessTot = richnessTot,
+                richnessSite = richnessSite)    
+    out
+}
