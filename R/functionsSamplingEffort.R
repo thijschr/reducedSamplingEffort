@@ -3,10 +3,10 @@
 
 # Function for selecting random rows/samples within a site ---------------
 
-randomRows <- function(data, n) 
+randomRows <- function(data, n) {
     ## data: dataframe with site (1st col), sample (2nd), and species abundances
     ## n: number of samples to sample within a site
-{
+
     return(data[sample(nrow(data), n), ])
 }
 
@@ -77,4 +77,20 @@ extractAxes <- function(lst, ax, noSites, iter) {
                    nrow = noSites,
                    ncol = iter,
                    dimnames = list(1:noSites, paste("rand", 1:iter, sep = "")))
+}
+
+
+# Function for checking the sign of DCA axes ------------------------------
+
+signCheck <- function(source, target) {
+    ## target: vector of axes scores with know direction
+    ## source: dataframe with columns that contain axes scores for which the sign are checked
+    
+    check <- cor(cbind(source, target))
+    for(i in 1:ncol(target)) {
+        check.i <- check[1, i]
+        # print(sign(check.i))
+        ifelse(sign(check.i == 1), next, target[, i] <- -target[, i])
+    }
+    target
 }
