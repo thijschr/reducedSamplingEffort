@@ -184,3 +184,37 @@ for(i in seq(length(corr43_ax1)))
     corr42_ax1[i] <- abs(corr42_ax1.i$estimate); corr42_ax2[i] <- abs(corr42_ax2.i$estimate)
     corr41_ax1[i] <- abs(corr41_ax1.i$estimate); corr41_ax2[i] <- abs(corr41_ax2.i$estimate)
 }
+
+
+
+# Congruence and total species richness results ------------------------------------------------------
+
+congruence <- data.frame(samples = c("3", "2", "1"),
+                         procrMean = c(mean(procr3), 
+                                       mean(procr2), 
+                                       mean(procr1)),
+                         procrSD = c(sd(procr3), 
+                                     sd(procr2), 
+                                     sd(procr1)),
+                         tau1Mean = c(mean(corr43_ax1), 
+                                      mean(corr42_ax1), 
+                                      mean(corr41_ax1)),
+                         tau1SD = c(sd(corr43_ax1), 
+                                    sd(corr42_ax1), 
+                                    sd(corr41_ax1)),
+                         tau2Mean = c(mean(corr43_ax2), 
+                                      mean(corr42_ax2), 
+                                      mean(corr41_ax2)),
+                         tau2SD = c(sd(corr43_ax2), 
+                                    sd(corr42_ax2), 
+                                    sd(corr41_ax2)),
+                         spMean = c(mean(dcas3gr$richnessTot), 
+                                    mean(dcas2gr$richnessTot), 
+                                    mean(dcas1gr$richnessTot)),
+                         spSD = c(sd(dcas3gr$richnessTot), 
+                                  sd(dcas2gr$richnessTot), 
+                                  sd(dcas1gr$richnessTot)))
+
+write.csv(congruence, paste("output/", "congruence.csv", sep = ""), row.names = F)
+
+
