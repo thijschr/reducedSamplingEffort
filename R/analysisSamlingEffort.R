@@ -117,3 +117,18 @@ dcas3gr <- dcaRedData(data = allStaRep, iter = 99, n = 3)
 dcas2gr <- dcaRedData(data = allStaRep, iter = 99, n = 2)
 dcas1gr <- dcaRedData(data = allStaRep, iter = 99, n = 1)
 
+
+# Storing DCA axes for reduced datasets in matrices -----------------------
+dca1_3gr <- extractAxes(lst = dcas3gr[[1]], ax = 1,
+                        noSites = 28, iter = 99)
+dca2_3gr <- extractAxes(lst = dcas3gr[[1]], ax = 2,
+                        noSites = 28, iter = 99)
+dca1_2gr <- extractAxes(lst = dcas2gr[[1]], ax = 1,
+                        noSites = 28, iter = 99)
+dca2_2gr <- extractAxes(lst = dcas2gr[[1]], ax = 2,
+                        noSites = 28, iter = 99)
+dca1_1gr <- extractAxes(lst = dcas1gr[[1]], ax = 1,
+                        noSites = 28, iter = 99)
+dca2_1gr <- extractAxes(lst = dcas1gr[[1]], ax = 2,
+                        noSites = 28, iter = 99)
+
