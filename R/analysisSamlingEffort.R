@@ -8,6 +8,10 @@ allSta <- read.csv("data/abundanceByStation.csv")
 
 
 
+# Sourcing script with functions ------------------------------------------
+
+source("R/functionsSamplingEffort.R")
+
 
 # ANALYSIS OF INTRA-SITE VARIABILITY --------------------------------------
 
@@ -104,4 +108,12 @@ dcaSta <- decorana(allSta32[, -1])
 axesSta <- data.frame(dca1 = scores(dcaSta, choices = 1, display = "sites"),
                       dca2 = scores(dcaSta, choices = 2, display = "sites"))
 
+
+# DCA STABILITY FOR FULL VS REDUCED DATA SETS -----------------------------
+
+# Running DCA, extracting axes and richness data for reduced datasets -----
+
+dcas3gr <- dcaRedData(data = allStaRep, iter = 99, n = 3)
+dcas2gr <- dcaRedData(data = allStaRep, iter = 99, n = 2)
+dcas1gr <- dcaRedData(data = allStaRep, iter = 99, n = 1)
 
