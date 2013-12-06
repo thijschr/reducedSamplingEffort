@@ -50,3 +50,46 @@ axes4StaRepMeanRange <- data.frame(
 axes4StaRepMeanRange$deltaD1 <- with(axes4StaRepMeanRange, d1Hi - d1Lo)
 axes4StaRepMeanRange$deltaD2 <- with(axes4StaRepMeanRange, d2Hi - d2Lo)
 
+
+
+# PLOTTING INTRA-SITE VARIABILITY -----------------------------------------
+
+pdf(file = paste("output/", "intraSiteVarPlot.pdf", sep = ""),
+    height = 5.5, width = 6)
+
+# svg(file = paste(avhandling, "fig1_intraSiteVarPlot.svg", sep = ""),
+#     height = 5.5, width = 6,
+#     onefile = TRUE)
+
+# par(mfrow = c(1, 2))
+
+## Complete DCA diagram
+plot(x = axes4StaRepMeanRange$d1,
+     y = axes4StaRepMeanRange$d2,
+     xlab = "DCA1",
+     ylab = "DCA2",
+     xlim = c(-1.00, 1.75),
+     ylim = c(-0.75, 1.25),
+     main = "Intra-site variability",
+     type = "n")
+
+# DCA1 variability
+segments(x0 = axes4StaRepMeanRange$d1Lo,
+         y0 = axes4StaRepMeanRange$d2,
+         x1 = axes4StaRepMeanRange$d1Hi,
+         y1 = axes4StaRepMeanRange$d2)
+
+# DCA2 variability
+segments(x0 = axes4StaRepMeanRange$d1,
+         y0 = axes4StaRepMeanRange$d2Lo,
+         x1 = axes4StaRepMeanRange$d1,
+         y1 = axes4StaRepMeanRange$d2Hi)
+
+# points(x = axes4StaRepMeanRange$d1,
+#        y = axes4StaRepMeanRange$d2,
+#        cex = 3,
+#        pch = 19)
+text(x = axes4StaRepMeanRange$d1,
+     y = axes4StaRepMeanRange$d2,
+     labels = 1:28) 
+dev.off()
