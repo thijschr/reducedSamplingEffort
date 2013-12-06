@@ -61,3 +61,20 @@ dcaRedData <- function(data, iter, n) {
                 richnessSite = richnessSite)    
     out
 }
+
+
+
+# Function to extract DCA axes and store them in a matrix -----------------
+
+extractAxes <- function(lst, ax, noSites, iter) {
+    
+    ## lst: list of data frames
+    ## ax: axis to extract (1 or 2)
+    ## noSites: number of sites in study
+    ## iter: number of randomly selected reduced datasets
+    
+    axes <- matrix(data = unlist(lapply(lst, function(x) x[, ax])),
+                   nrow = noSites,
+                   ncol = iter,
+                   dimnames = list(1:noSites, paste("rand", 1:iter, sep = "")))
+}
