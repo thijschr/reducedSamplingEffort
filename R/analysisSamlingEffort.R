@@ -118,17 +118,42 @@ dcas2gr <- dcaRedData(data = allStaRep, iter = 99, n = 2)
 dcas1gr <- dcaRedData(data = allStaRep, iter = 99, n = 1)
 
 
-# Storing DCA axes for reduced datasets in matrices -----------------------
-dca1_3gr <- extractAxes(lst = dcas3gr[[1]], ax = 1,
-                        noSites = 28, iter = 99)
-dca2_3gr <- extractAxes(lst = dcas3gr[[1]], ax = 2,
-                        noSites = 28, iter = 99)
-dca1_2gr <- extractAxes(lst = dcas2gr[[1]], ax = 1,
-                        noSites = 28, iter = 99)
-dca2_2gr <- extractAxes(lst = dcas2gr[[1]], ax = 2,
-                        noSites = 28, iter = 99)
-dca1_1gr <- extractAxes(lst = dcas1gr[[1]], ax = 1,
-                        noSites = 28, iter = 99)
-dca2_1gr <- extractAxes(lst = dcas1gr[[1]], ax = 2,
-                        noSites = 28, iter = 99)
+# Storing DCA axes for reduced datasets in data frames --------------------
+dca1_3gr <- as.data.frame(extractAxes(lst = dcas3gr[[1]], ax = 1,
+                                      noSites = 28, iter = 99))
+dca2_3gr <- as.data.frame(extractAxes(lst = dcas3gr[[1]], ax = 2,
+                                      noSites = 28, iter = 99))
+dca1_2gr <- as.data.frame(extractAxes(lst = dcas2gr[[1]], ax = 1,
+                                      noSites = 28, iter = 99))
+dca2_2gr <- as.data.frame(extractAxes(lst = dcas2gr[[1]], ax = 2,
+                                      noSites = 28, iter = 99))
+dca1_1gr <- as.data.frame(extractAxes(lst = dcas1gr[[1]], ax = 1,
+                                      noSites = 28, iter = 99))
+dca2_1gr <- as.data.frame(extractAxes(lst = dcas1gr[[1]], ax = 2,
+                                      noSites = 28, iter = 99))
 
+
+
+# Checking sign of axes ---------------------------------------------------
+
+## All axes need to point in the same direction when running procrustes analysis
+
+cor(cbind(axesSta[, 1], dca1_3gr))
+test <- cor(cbind(axesSta[, 1], dca1_3gr))
+str(test)
+test[1, ]
+if(sign(test[1, 1] == -1)), dca1_3gr[, 1] <- -dca1_3gr[, 1]
+
+signCheck <- function(source, target) {
+    ## target: vector of axes scores with know direction
+    ## source: matrix with columns that contain axes scores for which the sign are checked
+    for(i in 1:ncol(target)) {
+        test.i <- cor(cbind(source, target[, i]))
+        print(sign(test.i))
+        # if(sign(test.i) == -1) { target[, i] <- - target[, i] }
+        ifelse(sign(test.i == 1), next, target[, i] <- -target[, i])
+    }
+    target
+}
+
+pr <- signCheck(source = axesSta[, 2], target = dca2_3gr)
