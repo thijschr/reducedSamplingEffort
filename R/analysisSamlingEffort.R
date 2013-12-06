@@ -146,3 +146,12 @@ dca2_2gr <- signCheck(source = axesSta[, 2], target = dca2_2gr)
 dca1_1gr <- signCheck(source = axesSta[, 1], target = dca1_1gr)
 dca2_1gr <- signCheck(source = axesSta[, 2], target = dca2_1gr)
 
+
+
+# Procrustes analysis -----------------------------------------------------
+
+## Calling procrAnalysis()
+
+procr3 <- procrAnalysis(source = axesSta, first = dca1_3gr, second = dca2_3gr)
+procr2 <- procrAnalysis(source = axesSta, first = dca1_2gr, second = dca2_2gr)
+procr1 <- procrAnalysis(source = axesSta, first = dca1_1gr, second = dca2_1gr)
