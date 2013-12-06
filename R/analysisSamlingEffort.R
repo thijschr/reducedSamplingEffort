@@ -155,3 +155,32 @@ dca2_1gr <- signCheck(source = axesSta[, 2], target = dca2_1gr)
 procr3 <- procrAnalysis(source = axesSta, first = dca1_3gr, second = dca2_3gr)
 procr2 <- procrAnalysis(source = axesSta, first = dca1_2gr, second = dca2_2gr)
 procr1 <- procrAnalysis(source = axesSta, first = dca1_1gr, second = dca2_1gr)
+
+
+
+# Correlation between corresponding DCA axes ------------------------------
+
+## Vectors to hold correlation coefficients for each of the nine iterations
+corr43_ax1 <- rep(NA, 99); corr43_ax2 <- rep(NA, 99)
+corr42_ax1 <- rep(NA, 99); corr42_ax2 <- rep(NA, 99)
+corr41_ax1 <- rep(NA, 99); corr41_ax2 <- rep(NA, 99)
+
+for(i in seq(length(corr43_ax1)))
+{
+    # 4 VS 3
+    corr43_ax1.i <- cor.test(axesSta[, 1], dca1_3gr[, i], method = "k")
+    corr43_ax2.i <- cor.test(axesSta[, 2], dca2_3gr[, i], method = "k")
+    
+    ## 4 VS 2
+    corr42_ax1.i <- cor.test(axesSta[, 1], dca1_2gr[, i], method = "k")
+    corr42_ax2.i <- cor.test(axesSta[, 2], dca2_2gr[, i], method = "k")
+    
+    ## 4 VS 1
+    corr41_ax1.i <- cor.test(axesSta[, 1], dca1_1gr[, i], method = "k")
+    corr41_ax2.i <- cor.test(axesSta[, 2], dca2_1gr[, i], method = "k")
+    
+    # Store results
+    corr43_ax1[i] <- abs(corr43_ax1.i$estimate); corr43_ax2[i] <- abs(corr43_ax2.i$estimate)
+    corr42_ax1[i] <- abs(corr42_ax1.i$estimate); corr42_ax2[i] <- abs(corr42_ax2.i$estimate)
+    corr41_ax1[i] <- abs(corr41_ax1.i$estimate); corr41_ax2[i] <- abs(corr41_ax2.i$estimate)
+}
