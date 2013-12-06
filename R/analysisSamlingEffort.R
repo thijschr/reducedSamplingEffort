@@ -85,11 +85,13 @@ segments(x0 = axes4StaRepMeanRange$d1,
          x1 = axes4StaRepMeanRange$d1,
          y1 = axes4StaRepMeanRange$d2Hi)
 
-# points(x = axes4StaRepMeanRange$d1,
-#        y = axes4StaRepMeanRange$d2,
-#        cex = 3,
-#        pch = 19)
 text(x = axes4StaRepMeanRange$d1,
      y = axes4StaRepMeanRange$d2,
      labels = 1:28) 
 dev.off()
+
+
+# WILCOXON-MANN-WHITNEY: test of DCA1 vs. DCA2 variability -----------------
+
+with(axes4StaRepMeanRange, wilcox.test(deltaD1, deltaD2,
+                                       paired = T))
