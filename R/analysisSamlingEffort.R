@@ -95,3 +95,13 @@ dev.off()
 
 with(axes4StaRepMeanRange, wilcox.test(deltaD1, deltaD2,
                                        paired = T))
+
+
+# ORDINATION OF FULL DATASET BY SITE --------------------------------------
+
+dcaSta <- decorana(allSta32[, -1])
+
+axesSta <- data.frame(dca1 = scores(dcaSta, choices = 1, display = "sites"),
+                      dca2 = scores(dcaSta, choices = 2, display = "sites"))
+
+
