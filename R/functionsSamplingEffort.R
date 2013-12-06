@@ -80,11 +80,11 @@ extractAxes <- function(lst, ax, noSites, iter) {
 }
 
 
-# Function for checking the sign of DCA axes ------------------------------
+# Function for checking and changing the sign of DCA axes ------------------------------
 
 signCheck <- function(source, target) {
-    ## target: vector of axes scores with know direction
-    ## source: dataframe with columns that contain axes scores for which the sign are checked
+    ## source: vector of axes scores with known direction
+    ## target: dataframe with columns that contain axes scores for which the sign are checked
     
     check <- cor(cbind(source, target))
     for(i in 1:ncol(target)) {
@@ -93,4 +93,25 @@ signCheck <- function(source, target) {
         ifelse(sign(check.i == 1), next, target[, i] <- -target[, i])
     }
     target
+}
+
+
+
+# Function conducting procrustes analysis ---------------------------------
+
+procrAnalysis <- function(source, first, second) {
+    ## source: data frame/matrix containing ordination axes of the full data set
+    ## first: data frame/matrix containing first axes of reduced data sets
+    ## second: data frame/matrix containing second axes of reduced data sets
+    coeffs <- rep(NA, ncol(first))
+    
+    for(i in 1:ncol(first)) {
+        target.i <- cbind(first[, i], second[, i])
+        procr.i <- protest(X = source, Y = target.i,
+                           scores = "sites",
+                           symmetric = T,
+                           permutations = 999)
+        coeffs[i] <- procr.i$scale
+    }
+    coeffs
 }
