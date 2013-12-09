@@ -13,6 +13,12 @@ allSta <- read.csv("data/abundanceByStation.csv")
 source("R/functionsSamplingEffort.R")
 
 
+
+# Sourcing data preparation script ----------------------------------------
+
+source("R/dataPreparation.R")
+
+
 # ANALYSIS OF INTRA-SITE VARIABILITY --------------------------------------
 
 # ORDINATION OF FULL DATASET BY GRAB --------------------------------------
@@ -152,9 +158,9 @@ dca2_1gr <- signCheck(source = axesSta[, 2], target = dca2_1gr)
 
 ## Calling procrAnalysis()
 
-procr3 <- procrAnalysis(source = axesSta, first = dca1_3gr, second = dca2_3gr)
-procr2 <- procrAnalysis(source = axesSta, first = dca1_2gr, second = dca2_2gr)
-procr1 <- procrAnalysis(source = axesSta, first = dca1_1gr, second = dca2_1gr)
+procr3 <- procrAnalysis(target = axesSta, first = dca1_3gr, second = dca2_3gr)
+procr2 <- procrAnalysis(target = axesSta, first = dca1_2gr, second = dca2_2gr)
+procr1 <- procrAnalysis(target = axesSta, first = dca1_1gr, second = dca2_1gr)
 
 
 
@@ -190,18 +196,18 @@ for(i in seq(length(corr43_ax1)))
 # Congruence and total species richness results ------------------------------------------------------
 
 congruence <- data.frame(samples = c("3", "2", "1"),
-                         procrMean = c(mean(procr3), 
-                                       mean(procr2), 
-                                       mean(procr1)),
-                         procrSD = c(sd(procr3), 
-                                     sd(procr2), 
-                                     sd(procr1)),
-                         procrMin = c(min(procr3), 
-                                      min(procr2), 
-                                      min(procr1)),
-                         procrMax = c(max(procr3), 
-                                      max(procr2), 
-                                      max(procr1)),
+                         procrMean = c(mean(unlist(lapply(procr3, function(x) x$scale))),
+                                       mean(unlist(lapply(procr2, function(x) x$scale))),
+                                       mean(unlist(lapply(procr1, function(x) x$scale)))),
+                         procrSD = c(sd(unlist(lapply(procr3, function(x) x$scale))),
+                                     sd(unlist(lapply(procr2, function(x) x$scale))),
+                                     sd(unlist(lapply(procr1, function(x) x$scale)))),
+                         procrMin = c(min(unlist(lapply(procr3, function(x) x$scale))),
+                                      min(unlist(lapply(procr2, function(x) x$scale))),
+                                      min(unlist(lapply(procr1, function(x) x$scale)))),
+                         procrMax = c(max(unlist(lapply(procr3, function(x) x$scale))),
+                                      max(unlist(lapply(procr2, function(x) x$scale))),
+                                      max(unlist(lapply(procr1, function(x) x$scale)))),
                          tau1Mean = c(mean(corr43_ax1), 
                                       mean(corr42_ax1), 
                                       mean(corr41_ax1)),
@@ -239,6 +245,8 @@ congruence <- data.frame(samples = c("3", "2", "1"),
                                    max(dcas2gr$richnessTot), 
                                    max(dcas1gr$richnessTot)))
 
+                         
+
 write.csv(congruence, paste("output/", "congruence.csv", sep = ""), row.names = F)
 
 
@@ -264,8 +272,16 @@ write.csv(speciesRichSite, paste("output/", "speciesRichSite.csv", sep = ""), ro
 
 
 
-## TODO 
-# Changes in richness per site due to reduced local sampling effort
-# Procrustes plots - based on percentiles
-# Make histograms of procrustes coefficients?
-# Source dataPreparation file
+# PROCRUSTES PLOTS --------------------------------------------------------
+
+
+# Selection of iterations to plot, based on percentiles -------------------
+
+indices <- percIndices(procr1)
+
+
+
+# Plotting Procrustes plots to file ---------------------------------------
+
+procrPlots(procr1, indices)
+
