@@ -27,7 +27,7 @@ dcaRedData <- function(data, iter, n) {
     dcaList <- list()
     richnessTot <- NULL
     # richnessSite <- NULL
-    richnessSite <- matrix(nrow = nrow(data),
+    richnessSite <- matrix(nrow = length(unique(data$Sta)),
                            ncol = iter)
     
     for(i in 1:iter)
@@ -53,8 +53,8 @@ dcaRedData <- function(data, iter, n) {
         axesSites.i <- data.frame(dca1 = scores(dcaSites.i, choices = 1, disp = "sites"),
                                   dca2 = scores(dcaSites.i, choices = 2, disp = "sites"))
         
-        dcaList[[length(dcaList) + 1]] <- axesSites.i
-        richnessTot[length(richnessTot) + 1] <- richTot.i
+        dcaList[[i]] <- axesSites.i
+        richnessTot[i] <- richTot.i
         # richnessSite[length(richnessSite) + 1] <- richSite.i
         richnessSite[, i] <- richSite.i
         
@@ -115,7 +115,7 @@ procrAnalysis <- function(target, first, second) {
                            scores = "sites",
                            symmetric = T,
                            permutations = 999)
-        procrRes[[length(procrRes) + 1]] <- procr.i
+        procrRes[[i]] <- procr.i
     }
     procrRes
 }
