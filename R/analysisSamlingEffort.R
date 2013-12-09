@@ -242,7 +242,29 @@ congruence <- data.frame(samples = c("3", "2", "1"),
 write.csv(congruence, paste("output/", "congruence.csv", sep = ""), row.names = F)
 
 
-## TODO
+
+# Changes in species richness per site ------------------------------------
+
+speciesRichSite <- data.frame(site = 1:28, 
+                              sp4 = as.vector(rowSums(allSta[, -1] > 0)),
+                              sp3 = apply(dcas3gr$richnessSite, 1, mean),
+                              sp3sd = apply(dcas3gr$richnessSite, 1, sd),
+                              sp3lo = apply(dcas3gr$richnessSite, 1, range)[1, ],
+                              sp3hi = apply(dcas3gr$richnessSite, 1, range)[2, ],
+                              sp2 = apply(dcas2gr$richnessSite, 1, mean),
+                              sp2sd = apply(dcas2gr$richnessSite, 1, sd),
+                              sp2lo = apply(dcas2gr$richnessSite, 1, range)[1, ],
+                              sp2hi = apply(dcas2gr$richnessSite, 1, range)[2, ],
+                              sp1 = apply(dcas1gr$richnessSite, 1, mean),
+                              sp1sd = apply(dcas1gr$richnessSite, 1, sd),
+                              sp1lo = apply(dcas1gr$richnessSite, 1, range)[1, ],
+                              sp1hi = apply(dcas1gr$richnessSite, 1, range)[2, ])
+
+write.csv(speciesRichSite, paste("output/", "speciesRichSite.csv", sep = ""), row.names = F)
+
+
+
+## TODO 
 # Changes in richness per site due to reduced local sampling effort
 # Procrustes plots - based on percentiles
 # Make histograms of procrustes coefficients?
