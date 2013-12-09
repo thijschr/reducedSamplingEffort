@@ -106,7 +106,8 @@ procrAnalysis <- function(source, first, second) {
     ## source: data frame/matrix containing ordination axes of the full data set
     ## first: data frame/matrix containing first axes of reduced data sets
     ## second: data frame/matrix containing second axes of reduced data sets
-    coeffs <- rep(NA, ncol(first))
+    # coeffs <- rep(NA, ncol(first))
+    procrRes <- list()
     
     for(i in 1:ncol(first)) {
         target.i <- cbind(first[, i], second[, i])
@@ -114,7 +115,49 @@ procrAnalysis <- function(source, first, second) {
                            scores = "sites",
                            symmetric = T,
                            permutations = 999)
-        coeffs[i] <- procr.i$scale
+        # coeffs[i] <- procr.i$scale
+        procrRes[[length(procrRes) + 1]] <- procr.i
     }
-    coeffs
+    procrRes
 }
+
+
+# Function selecting procrustes coefficients and then plotting ------------
+
+# procrPlots <- function(coeffs) {
+#     ### Makes a 3x2 plot showing procrustes plots for the 0, 20, 40, 60, 80, and 100 
+#     ### percentiles of procrustes coefficients
+#     ## coeffs: vector of procrustes coefficients
+#     ## 
+#     index <- rep(NA, 6)
+#     perc <- unname(round(quantile(coeffs, probs = seq(0, 1, 0.2)), 2))
+#     for(i in seq_len(perc)) {
+#         index[i] <- match(perc[i], round(coeffs, 2))
+#     }
+#     
+#     pdf(file = paste("output/", "procr41Plots.pdf", sep = ""),
+#         height = 10, width = 10)
+#     
+# #     svg(file = paste(avhandling, "fig2_procr41Plots.svg", sep = ""),
+# #         height = 10, width = 10,
+# #         onefile = TRUE)
+#     
+#     par(mfrow = c(3, 2))
+#     
+#     for(i in index)
+#     {
+#         plot(procr41Ls[[i]],
+#              xlab = "DCA1", ylab = "DCA2", 
+#              main = paste("r = ", round(procr41[i], 2), sep = ""),
+#              cex.main = 1.5,
+#              xlim = c(-0.3, 0.6), ylim = c(-0.25, 0.25))
+#         text(procr41Ls[[i]],
+#              display = "rotated",
+#              labels = 1:28,
+#              cex = 1.25,
+#              pos = 2,
+#              offset = 0.25)
+#     }
+#     dev.off()
+# }
+# 
