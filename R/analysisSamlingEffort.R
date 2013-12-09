@@ -196,25 +196,54 @@ congruence <- data.frame(samples = c("3", "2", "1"),
                          procrSD = c(sd(procr3), 
                                      sd(procr2), 
                                      sd(procr1)),
+                         procrMin = c(min(procr3), 
+                                      min(procr2), 
+                                      min(procr1)),
+                         procrMax = c(max(procr3), 
+                                      max(procr2), 
+                                      max(procr1)),
                          tau1Mean = c(mean(corr43_ax1), 
                                       mean(corr42_ax1), 
                                       mean(corr41_ax1)),
                          tau1SD = c(sd(corr43_ax1), 
                                     sd(corr42_ax1), 
                                     sd(corr41_ax1)),
+                         tau1Min = c(min(corr43_ax1), 
+                                     min(corr42_ax1), 
+                                     min(corr41_ax1)),
+                         tau1Max = c(max(corr43_ax1), 
+                                     max(corr42_ax1), 
+                                     max(corr41_ax1)),
                          tau2Mean = c(mean(corr43_ax2), 
                                       mean(corr42_ax2), 
                                       mean(corr41_ax2)),
                          tau2SD = c(sd(corr43_ax2), 
                                     sd(corr42_ax2), 
                                     sd(corr41_ax2)),
+                         tau2Min = c(min(corr43_ax2), 
+                                     min(corr42_ax2), 
+                                     min(corr41_ax2)),
+                         tau2Max = c(max(corr43_ax2), 
+                                     max(corr42_ax2), 
+                                     max(corr41_ax2)),
                          spMean = c(mean(dcas3gr$richnessTot), 
                                     mean(dcas2gr$richnessTot), 
                                     mean(dcas1gr$richnessTot)),
                          spSD = c(sd(dcas3gr$richnessTot), 
                                   sd(dcas2gr$richnessTot), 
-                                  sd(dcas1gr$richnessTot)))
+                                  sd(dcas1gr$richnessTot)),
+                         spMin = c(min(dcas3gr$richnessTot), 
+                                   min(dcas2gr$richnessTot), 
+                                   min(dcas1gr$richnessTot)),
+                         spMax = c(max(dcas3gr$richnessTot), 
+                                   max(dcas2gr$richnessTot), 
+                                   max(dcas1gr$richnessTot)))
 
 write.csv(congruence, paste("output/", "congruence.csv", sep = ""), row.names = F)
 
 
+## TODO
+# Changes in richness per site due to reduced local sampling effort
+# Procrustes plots - based on percentiles
+# Make histograms of procrustes coefficients?
+# Source dataPreparation file
