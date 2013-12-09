@@ -26,7 +26,9 @@ dcaRedData <- function(data, iter, n) {
     
     dcaList <- list()
     richnessTot <- NULL
-    richnessSite <- NULL
+    # richnessSite <- NULL
+    richnessSite <- matrix(nrow = nrow(data),
+                           ncol = iter)
     
     for(i in 1:iter)
     {
@@ -53,7 +55,8 @@ dcaRedData <- function(data, iter, n) {
         
         dcaList[[length(dcaList) + 1]] <- axesSites.i
         richnessTot[length(richnessTot) + 1] <- richTot.i
-        richnessSite[length(richnessSite) + 1] <- richSite.i
+        # richnessSite[length(richnessSite) + 1] <- richSite.i
+        richnessSite[, i] <- richSite.i
         
     }
     out <- list(dcas = dcaList,
