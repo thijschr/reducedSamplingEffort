@@ -11,3 +11,5 @@ The whole repository can be downloaded to your computer as a zip file (click the
 Reproduce the analysis by running the analysisSamplingEffort.R file, which will source both the dataPreparation.R and functionsSamplingEffort.R files.
 
 Although not tested on other datasets, the analysis should be able to run on similar datasets having samples nested within sites, where each sample is registered as individual observations.
+
+The accompanying manuscript has been submitted to a peer-reviewed journal.
