@@ -19,6 +19,7 @@ source("R/functionsSamplingEffort.R")
 source("R/dataPreparation.R")
 
 
+
 # ANALYSIS OF INTRA-SITE VARIABILITY --------------------------------------
 
 # ORDINATION OF FULL DATASET BY GRAB --------------------------------------
@@ -64,8 +65,16 @@ axes4StaRepMeanRange$deltaD2 <- with(axes4StaRepMeanRange, d2Hi - d2Lo)
 
 # PLOTTING INTRA-SITE VARIABILITY -----------------------------------------
 
-pdf(file = paste("output/", "intraSiteVarPlot.pdf", sep = ""),
-    height = 5.5, width = 6)
+require(extrafont)
+loadfonts(device = "postscript")
+
+postscript(file = paste("output/", "intraSiteVarPlot.eps", sep = ""),
+           height = 6.25, width = 6.83,
+           family = "Arial", paper = "special",
+           onefile = FALSE, horizontal = FALSE)
+
+# pdf(file = paste("output/", "intraSiteVarPlot.pdf", sep = ""),
+#     height = 5.5, width = 6)
 
 # svg(file = paste(avhandling, "fig1_intraSiteVarPlot.svg", sep = ""),
 #     height = 5.5, width = 6,
@@ -99,6 +108,7 @@ text(x = axes4StaRepMeanRange$d1,
      y = axes4StaRepMeanRange$d2,
      labels = 1:28) 
 dev.off()
+
 
 
 # WILCOXON-MANN-WHITNEY: test of DCA1 vs. DCA2 variability -----------------
@@ -285,3 +295,14 @@ indices <- percIndices(procr1)
 
 procrPlots(procr1, indices)
 
+
+
+# Embedding fonts in figures ----------------------------------------------
+
+embed_fonts(file = "output/intraSiteVarPlot.eps", 
+            outfile = "output/intraSiteVarPlot_embed.eps",
+            options = "-dEPSCrop")
+
+embed_fonts(file = "output/procr41PLots.eps", 
+           outfile = "output/procr41PLots_embed.eps",
+           options = "-dEPSCrop")

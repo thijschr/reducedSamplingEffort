@@ -148,9 +148,14 @@ procrPlots <- function(procr, index, ...) {
     procrSel <- procr[index]
     percLabels <- seq(0, 100, 20)
     coeffs <- unlist(lapply(procrSel, function(x) x$scale))
-       
-    pdf(file = paste("output/", "procr41Plots.pdf", sep = ""),
-        height = 9, width = 7)
+    
+    postscript(file = paste("output/", "procr41PLots.eps", sep = ""),
+               height = 8.75, width = 6.83,
+               family = "Arial", paper = "special",
+               onefile = FALSE, horizontal = F)
+    
+#     pdf(file = paste("output/", "procr41Plots.pdf", sep = ""),
+#         height = 9, width = 7)
     
 #     svg(file = paste(avhandling, "fig2_procr41Plots.svg", sep = ""),
 #         height = 10, width = 10,
