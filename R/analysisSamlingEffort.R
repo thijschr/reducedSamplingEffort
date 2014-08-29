@@ -294,24 +294,6 @@ write.csv(speciesRichSite, paste("output/", "speciesRichSite.csv", sep = ""), ro
 indices <- percIndices(procr1)
 
 
-
-# Plotting Procrustes plots to file ---------------------------------------
-
-procrPlots(procr1, indices)
-
-
-
-# Embedding fonts in figures ----------------------------------------------
-
-embed_fonts(file = "output/intraSiteVarPlot.eps", 
-            outfile = "output/intraSiteVarPlot_embed.eps",
-            options = "-dEPSCrop")
-
-embed_fonts(file = "output/procr41PLots.eps", 
-           outfile = "output/procr41PLots_embed.eps",
-           options = "-dEPSCrop")
-
-
 # MANTEL TESTS ------------------------------------------------------------
 
 # Extracting axes scores for DCAs based on 1 grab -------------------------
@@ -355,3 +337,19 @@ mantelTestsRes <- data.frame(Percentile = colnames(dca1_1gr_mantel),
                              MantelSignif = unlist(lapply(mantelTests,
                                                           function(x) x$signif)))
 
+
+# Plotting Procrustes plots to file ---------------------------------------
+
+procrPlots(procr1, indices)
+
+
+
+# Embedding fonts in figures ----------------------------------------------
+
+embed_fonts(file = "output/intraSiteVarPlot.eps", 
+            outfile = "output/intraSiteVarPlot_embed.eps",
+            options = "-dEPSCrop")
+
+embed_fonts(file = "output/procr41PLots.eps", 
+            outfile = "output/procr41PLots_embed.eps",
+            options = "-dEPSCrop")
