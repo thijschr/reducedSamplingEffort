@@ -206,94 +206,6 @@ for(i in seq(length(corr43_ax1)))
 }
 
 
-
-# Congruence and total species richness results ------------------------------------------------------
-
-congruence <- data.frame(samples = c("3", "2", "1"),
-                         procrMean = c(mean(unlist(lapply(procr3, function(x) x$scale))),
-                                       mean(unlist(lapply(procr2, function(x) x$scale))),
-                                       mean(unlist(lapply(procr1, function(x) x$scale)))),
-                         procrSD = c(sd(unlist(lapply(procr3, function(x) x$scale))),
-                                     sd(unlist(lapply(procr2, function(x) x$scale))),
-                                     sd(unlist(lapply(procr1, function(x) x$scale)))),
-                         procrMin = c(min(unlist(lapply(procr3, function(x) x$scale))),
-                                      min(unlist(lapply(procr2, function(x) x$scale))),
-                                      min(unlist(lapply(procr1, function(x) x$scale)))),
-                         procrMax = c(max(unlist(lapply(procr3, function(x) x$scale))),
-                                      max(unlist(lapply(procr2, function(x) x$scale))),
-                                      max(unlist(lapply(procr1, function(x) x$scale)))),
-                         tau1Mean = c(mean(corr43_ax1), 
-                                      mean(corr42_ax1), 
-                                      mean(corr41_ax1)),
-                         tau1SD = c(sd(corr43_ax1), 
-                                    sd(corr42_ax1), 
-                                    sd(corr41_ax1)),
-                         tau1Min = c(min(corr43_ax1), 
-                                     min(corr42_ax1), 
-                                     min(corr41_ax1)),
-                         tau1Max = c(max(corr43_ax1), 
-                                     max(corr42_ax1), 
-                                     max(corr41_ax1)),
-                         tau2Mean = c(mean(corr43_ax2), 
-                                      mean(corr42_ax2), 
-                                      mean(corr41_ax2)),
-                         tau2SD = c(sd(corr43_ax2), 
-                                    sd(corr42_ax2), 
-                                    sd(corr41_ax2)),
-                         tau2Min = c(min(corr43_ax2), 
-                                     min(corr42_ax2), 
-                                     min(corr41_ax2)),
-                         tau2Max = c(max(corr43_ax2), 
-                                     max(corr42_ax2), 
-                                     max(corr41_ax2)),
-                         spMean = c(mean(dcas3gr$richnessTot), 
-                                    mean(dcas2gr$richnessTot), 
-                                    mean(dcas1gr$richnessTot)),
-                         spSD = c(sd(dcas3gr$richnessTot), 
-                                  sd(dcas2gr$richnessTot), 
-                                  sd(dcas1gr$richnessTot)),
-                         spMin = c(min(dcas3gr$richnessTot), 
-                                   min(dcas2gr$richnessTot), 
-                                   min(dcas1gr$richnessTot)),
-                         spMax = c(max(dcas3gr$richnessTot), 
-                                   max(dcas2gr$richnessTot), 
-                                   max(dcas1gr$richnessTot)))
-
-                         
-
-write.csv(congruence, paste("output/", "congruence.csv", sep = ""), row.names = F)
-
-
-
-# Changes in species richness per site ------------------------------------
-
-speciesRichSite <- data.frame(site = 1:28, 
-                              sp4 = as.vector(rowSums(allSta[, -1] > 0)),
-                              sp3 = apply(dcas3gr$richnessSite, 1, mean),
-                              sp3sd = apply(dcas3gr$richnessSite, 1, sd),
-                              sp3lo = apply(dcas3gr$richnessSite, 1, range)[1, ],
-                              sp3hi = apply(dcas3gr$richnessSite, 1, range)[2, ],
-                              sp2 = apply(dcas2gr$richnessSite, 1, mean),
-                              sp2sd = apply(dcas2gr$richnessSite, 1, sd),
-                              sp2lo = apply(dcas2gr$richnessSite, 1, range)[1, ],
-                              sp2hi = apply(dcas2gr$richnessSite, 1, range)[2, ],
-                              sp1 = apply(dcas1gr$richnessSite, 1, mean),
-                              sp1sd = apply(dcas1gr$richnessSite, 1, sd),
-                              sp1lo = apply(dcas1gr$richnessSite, 1, range)[1, ],
-                              sp1hi = apply(dcas1gr$richnessSite, 1, range)[2, ])
-
-write.csv(speciesRichSite, paste("output/", "speciesRichSite.csv", sep = ""), row.names = F)
-
-
-
-# PROCRUSTES PLOTS --------------------------------------------------------
-
-
-# Selection of iterations to plot, based on percentiles -------------------
-
-indices <- percIndices(procr1)
-
-
 # MANTEL TESTS ------------------------------------------------------------
 
 # Extracting axes scores for DCAs based on 1 grab -------------------------
@@ -338,10 +250,15 @@ mantelTestsRes <- data.frame(Percentile = colnames(dca1_1gr_mantel),
                                                           function(x) x$signif)))
 
 
+# PROCRUSTES PLOTS --------------------------------------------------------
+
+# Selection of iterations to plot, based on percentiles -------------------
+
+indices <- percIndices(procr1)
+
 # Plotting Procrustes plots to file ---------------------------------------
 
 procrPlots(procr1, indices)
-
 
 
 # Embedding fonts in figures ----------------------------------------------
@@ -353,3 +270,81 @@ embed_fonts(file = "output/intraSiteVarPlot.eps",
 embed_fonts(file = "output/procr41PLots.eps", 
             outfile = "output/procr41PLots_embed.eps",
             options = "-dEPSCrop")
+
+
+# Congruence and total species richness results ------------------------------------------------------
+
+congruence <- data.frame(samples = c("3", "2", "1"),
+                         procrMean = c(mean(unlist(lapply(procr3, function(x) x$scale))),
+                                       mean(unlist(lapply(procr2, function(x) x$scale))),
+                                       mean(unlist(lapply(procr1, function(x) x$scale)))),
+                         procrSD = c(sd(unlist(lapply(procr3, function(x) x$scale))),
+                                     sd(unlist(lapply(procr2, function(x) x$scale))),
+                                     sd(unlist(lapply(procr1, function(x) x$scale)))),
+                         procrMin = c(min(unlist(lapply(procr3, function(x) x$scale))),
+                                      min(unlist(lapply(procr2, function(x) x$scale))),
+                                      min(unlist(lapply(procr1, function(x) x$scale)))),
+                         procrMax = c(max(unlist(lapply(procr3, function(x) x$scale))),
+                                      max(unlist(lapply(procr2, function(x) x$scale))),
+                                      max(unlist(lapply(procr1, function(x) x$scale)))),
+                         tau1Mean = c(mean(corr43_ax1), 
+                                      mean(corr42_ax1), 
+                                      mean(corr41_ax1)),
+                         tau1SD = c(sd(corr43_ax1), 
+                                    sd(corr42_ax1), 
+                                    sd(corr41_ax1)),
+                         tau1Min = c(min(corr43_ax1), 
+                                     min(corr42_ax1), 
+                                     min(corr41_ax1)),
+                         tau1Max = c(max(corr43_ax1), 
+                                     max(corr42_ax1), 
+                                     max(corr41_ax1)),
+                         tau2Mean = c(mean(corr43_ax2), 
+                                      mean(corr42_ax2), 
+                                      mean(corr41_ax2)),
+                         tau2SD = c(sd(corr43_ax2), 
+                                    sd(corr42_ax2), 
+                                    sd(corr41_ax2)),
+                         tau2Min = c(min(corr43_ax2), 
+                                     min(corr42_ax2), 
+                                     min(corr41_ax2)),
+                         tau2Max = c(max(corr43_ax2), 
+                                     max(corr42_ax2), 
+                                     max(corr41_ax2)))
+                         
+write.csv(congruence, 
+          paste("output/", "congruence.csv", sep = ""), 
+          row.names = F)
+
+
+# Changes in species richness per site ------------------------------------
+
+speciesRichness <- data.frame(n = 1:3,
+                              totSpMean = c(mean(dcas3gr$richnessTot), 
+                                            mean(dcas2gr$richnessTot), 
+                                            mean(dcas1gr$richnessTot)),
+                              TotSpSD = c(sd(dcas3gr$richnessTot), 
+                                          sd(dcas2gr$richnessTot), 
+                                          sd(dcas1gr$richnessTot)),
+                              TotSpMin = c(min(dcas3gr$richnessTot), 
+                                           min(dcas2gr$richnessTot), 
+                                           min(dcas1gr$richnessTot)),
+                              TotSpMax = c(max(dcas3gr$richnessTot), 
+                                           max(dcas2gr$richnessTot), 
+                                           max(dcas1gr$richnessTot)),
+                              spSiteAvg = c(mean(dcas3gr$richnessSite),
+                                            mean(dcas2gr$richnessSite),
+                                            mean(dcas1gr$richnessSite)),
+                              spSiteSd = c(sd(dcas3gr$richnessSite),
+                                           sd(dcas2gr$richnessSite),
+                                           sd(dcas1gr$richnessSite)),
+                              spSiteMax = c(max(dcas3gr$richnessSite),
+                                            max(dcas2gr$richnessSite),
+                                            max(dcas1gr$richnessSite)),
+                              spSiteMin = c(min(dcas3gr$richnessSite),
+                                            min(dcas2gr$richnessSite),
+                                            min(dcas1gr$richnessSite)))
+    
+write.csv(speciesRichness, 
+          paste("output/", "speciesRichness.csv", sep = ""), 
+          row.names = F)
