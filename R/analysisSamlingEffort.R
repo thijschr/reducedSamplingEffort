@@ -65,8 +65,12 @@ axes4StaRepMeanRange$deltaD2 <- with(axes4StaRepMeanRange, d2Hi - d2Lo)
 
 # PLOTTING INTRA-SITE VARIABILITY -----------------------------------------
 
-require(extrafont)
-loadfonts(device = "postscript")
+library(extrafont)
+## NB! The first time you use the extrafont package you need to register fonts
+## with the extrafonts database. Run font_import() to do this. This can take some
+## time. 
+loadfonts(device = "postscript",
+          quite = TRUE)
 
 postscript(file = paste("output/", "intraSiteVarPlot.eps", sep = ""),
            height = 6.25, width = 6.83,
