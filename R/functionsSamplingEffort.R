@@ -151,6 +151,7 @@ percIndices <- function(procr) {
 
 # Function selecting procrustes coefficients and then plotting ------------
 
+
 procrPlots <- function(procr, index, ...) {
     ### Makes a 3x2 plot showing procrustes plots for the 0, 20, 40, 60, 80, and 100 
     ### percentiles of procrustes coefficients
@@ -166,7 +167,7 @@ procrPlots <- function(procr, index, ...) {
     coeffsP <- unlist(lapply(procrSel, function(x) x$scale))
     coeffsM <- mantelTestsRes$MantelCorr
     
-    postscript(file = paste("output/", "procr41PLots_Mant.eps", sep = ""),
+    postscript(file = paste("output/", "procr41PLots.eps", sep = ""),
                height = 8.75, width = 6.83,
                family = "Arial", paper = "special",
                onefile = FALSE, horizontal = F)
