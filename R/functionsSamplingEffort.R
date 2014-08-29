@@ -26,9 +26,11 @@ dcaRedData <- function(data, iter, n) {
     
     dcaList <- list()
     richnessTot <- NULL
-    # richnessSite <- NULL
     richnessSite <- matrix(nrow = length(unique(data$Sta)),
                            ncol = iter)
+    eigen1 <- NULL
+    eigen2 <- NULL
+    sumEigs <- NULL
     
     for(i in 1:iter)
     {
@@ -48,20 +50,30 @@ dcaRedData <- function(data, iter, n) {
         richTot.i <- sum(colSums(siteR32.i) > 0)
         richSite.i <- as.vector(rowSums(siteR32.i > 0))
         
+        # Running DCA
         dcaSites.i <- decorana(siteR32.i)
         
         axesSites.i <- data.frame(dca1 = scores(dcaSites.i, choices = 1, disp = "sites"),
                                   dca2 = scores(dcaSites.i, choices = 2, disp = "sites"))
         
+        eig1.i <- unname(dcaSites.i$evals[1])
+        eig2.i <- unname(dcaSites.i$evals[2])
+        sumEigs.i <- unname(sum(dcaSites.i$evals))
+        
         dcaList[[i]] <- axesSites.i
         richnessTot[i] <- richTot.i
-        # richnessSite[length(richnessSite) + 1] <- richSite.i
         richnessSite[, i] <- richSite.i
+        eigen1[i] <- eig1.i
+        eigen2[i] <- eig2.i
+        sumEigs[i] <- sumEigs.i
         
     }
     out <- list(dcas = dcaList,
                 richnessTot = richnessTot,
-                richnessSite = richnessSite)    
+                richnessSite = richnessSite,
+                eigen1 = eigen1,
+                eigen2 = eigen2,
+                sumEigs = sumEigs)    
     out
 }
 
@@ -182,3 +194,25 @@ procrPlots <- function(procr, index, ...) {
     }
     dev.off()
 }  
+
+
+# Wrapper function for estimating euclidean distance between sites --------
+
+distance <- function(first, second) 
+{
+    ### Estimates Euclidean distances between sites in several ordination diagrams
+    ## first: Dataframe of first axes of ordination diagrams to estimate euclidean
+    ## distances for.
+    ## second: Dataframe of second axes
+    distList <- list()
+    
+    n <- ncol(first)
+    for(i in seq(n)) {
+        ax1.i <- first[, i]
+        ax2.i <- second[, i]
+        dstnc.i <- dist(cbind(ax1.i, ax2.i), method = 'euclidean')
+        
+        distList[[i]] <- dstnc.i
+    }
+    distList
+}
