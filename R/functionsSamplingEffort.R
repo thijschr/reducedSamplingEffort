@@ -157,11 +157,16 @@ procrPlots <- function(procr, index, ...) {
     ## procr: output from a protest() call
     ## index: vector of indices returned from percIndices() call
     
+    require(extrafont)
+    loadfonts(device = "postscript",
+              quiet = TRUE)
+    
     procrSel <- procr[index]
     percLabels <- seq(0, 100, 20)
-    coeffs <- unlist(lapply(procrSel, function(x) x$scale))
+    coeffsP <- unlist(lapply(procrSel, function(x) x$scale))
+    coeffsM <- mantelTestsRes$MantelCorr
     
-    postscript(file = paste("output/", "procr41PLots.eps", sep = ""),
+    postscript(file = paste("output/", "procr41PLots_Mant.eps", sep = ""),
                height = 8.75, width = 6.83,
                family = "Arial", paper = "special",
                onefile = FALSE, horizontal = F)
@@ -180,10 +185,11 @@ procrPlots <- function(procr, index, ...) {
         plot(procrSel[[i]],
              xlab = "DCA1", ylab = "DCA2",
              to.target = F,
-             main = paste("r =", round(coeffs[i], 2), ",",
-                          percLabels[i], "% Percentile", 
+             main = paste("r(P)=", round(coeffsP[i], 2), ",",
+                          "r(M)=", round(coeffsM[i], 2), ",",
+                          percLabels[i], "% Perc", 
                           sep = " "),
-             cex.main = 1.5,
+             cex.main = 1,
              xlim = c(-0.3, 0.6), ylim = c(-0.25, 0.25))
         text(procrSel[[i]],
              display = "rotated",
