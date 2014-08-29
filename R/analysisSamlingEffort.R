@@ -25,7 +25,7 @@ source("R/dataPreparation.R")
 # ORDINATION OF FULL DATASET BY GRAB --------------------------------------
 
 # decorana() call and extraction of axes scores ---------------------------
-require(vegan)
+library(vegan)
 
 dca4StaRep <- decorana(allStaRep16[, -c(1:2)])
 
@@ -176,7 +176,7 @@ procr1 <- procrAnalysis(target = axesSta, first = dca1_1gr, second = dca2_1gr)
 
 # Correlation between corresponding DCA axes ------------------------------
 
-## Vectors to hold correlation coefficients for each of the nine iterations
+## Vectors to hold correlation coefficients for each of the 99 iterations
 corr43_ax1 <- rep(NA, 99); corr43_ax2 <- rep(NA, 99)
 corr42_ax1 <- rep(NA, 99); corr42_ax2 <- rep(NA, 99)
 corr41_ax1 <- rep(NA, 99); corr41_ax2 <- rep(NA, 99)
@@ -306,3 +306,48 @@ embed_fonts(file = "output/intraSiteVarPlot.eps",
 embed_fonts(file = "output/procr41PLots.eps", 
            outfile = "output/procr41PLots_embed.eps",
            options = "-dEPSCrop")
+
+
+# MANTEL TESTS ------------------------------------------------------------
+
+# Extracting axes scores for DCAs based on 1 grab -------------------------
+
+## Extracting based on 0, 20, 40, 60, 80, and 100 percentiles
+
+dca1_1gr_mantel <- dca1_1gr[, indices]
+dca2_1gr_mantel <- dca2_1gr[, indices]
+colnames(dca1_1gr_mantel) <- c('zero', 'twenty', 'forty', 
+                               'sixty', 'eighty', 'hundred')
+colnames(dca2_1gr_mantel) <- colnames(dca1_1gr_mantel)
+
+
+# Calculating Euclidean distances for ordination diagrams -----------------
+
+## Full dataset
+distance4gr <- dist(axesSta, method = 'euclidean')
+
+## Datasets based on 1 grab sample
+distance1gr <- distance(first = dca1_1gr_mantel,
+                        second = dca2_1gr_mantel)
+
+# Mantel tests: Full dataset vs. percentile 1-grab datasets ---------------
+
+## List to hold results of mantel tests
+mantelTests <- list()
+
+## Comparing the full dataset to all percentile datasets
+for(i in seq(length(distance1gr))) {
+    mantelTests[[i]] <- mantel(xdis = distance4gr,
+                               ydis = distance1gr[[i]],
+                               method = 'kendall')
+}
+
+
+# Mantel test results -----------------------------------------------------
+
+mantelTestsRes <- data.frame(Percentile = colnames(dca1_1gr_mantel),
+                             MantelCorr = unlist(lapply(mantelTests,
+                                                        function(x) x$statistic)),
+                             MantelSignif = unlist(lapply(mantelTests,
+                                                          function(x) x$signif)))
+
