@@ -69,8 +69,7 @@ library(extrafont)
 ## NB! The first time you use the extrafont package you need to register fonts
 ## with the extrafonts database. Run font_import() to do this. This can take some
 ## time. 
-loadfonts(device = "postscript",
-          quite = TRUE)
+loadfonts(device = "postscript")
 
 postscript(file = paste("output/", "intraSiteVarPlot.eps", sep = ""),
            height = 6.25, width = 6.83,

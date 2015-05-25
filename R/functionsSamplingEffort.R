@@ -167,17 +167,17 @@ procrPlots <- function(procr, index, ...) {
     coeffsP <- unlist(lapply(procrSel, function(x) x$scale))
     coeffsM <- mantelTestsRes$MantelCorr
     
-    postscript(file = paste("output/", "procr41PLots.eps", sep = ""),
-               height = 8.75, width = 6.83,
-               family = "Arial", paper = "special",
-               onefile = FALSE, horizontal = F)
+#     postscript(file = paste("output/", "procr41PLots.eps", sep = ""),
+#                height = 8.75, width = 6.83,
+#                family = "Arial", paper = "special",
+#                onefile = FALSE, horizontal = F)
     
 #     pdf(file = paste("output/", "procr41Plots.pdf", sep = ""),
-#         height = 9, width = 7)
+#         height = 8.73, width = 6.83)
     
-#     svg(file = paste(avhandling, "fig2_procr41Plots.svg", sep = ""),
-#         height = 10, width = 10,
-#         onefile = TRUE)
+    svg(file = paste("output/", "fig2_procr41Plots.svg", sep = ""),
+        height = 20, width = 20,
+        onefile = TRUE)
     
     par(mfrow = c(3, 2))
     
@@ -190,12 +190,13 @@ procrPlots <- function(procr, index, ...) {
                           "r(M)=", round(coeffsM[i], 2), ",",
                           percLabels[i], "% Perc", 
                           sep = " "),
-             cex.main = 1,
+             cex = 3,
+             cex.main = 4,
              xlim = c(-0.3, 0.6), ylim = c(-0.25, 0.25))
         text(procrSel[[i]],
              display = "rotated",
              labels = 1:28,
-             cex = 1.25,
+             cex = 3,
              pos = 2,
              offset = 0.25)
     }
